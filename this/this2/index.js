@@ -23,5 +23,3 @@ function sayHi2() {
     alert(this);
 }
 sayHi2(); //전역객체 window.
-
-
