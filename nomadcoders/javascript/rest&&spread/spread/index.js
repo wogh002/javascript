@@ -15,4 +15,5 @@ const hello = {
     hello: 'hello'
 }
 console.log({ ...sexy, ...hello });
+//js 는 익명객체,익명 배열 다됌.
 
