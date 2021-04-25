@@ -31,5 +31,3 @@ console.log(triangle.getArea());
 triangle.draw();
 
 
-
-
