@@ -1,5 +1,16 @@
 'use strict';
+
 class UserStorage {
+    async infoUser() {
+        try {
+            const userInfo = await this.loginUser(userId, userPassword);
+            const { name, role } = await this.getRoles(userInfo);
+            alert(`${name} ${role}`);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
     loginUser(id, password) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -28,14 +39,16 @@ class UserStorage {
         })
     }
 }
-
-const userStorage = new UserStorage();
 const userId = prompt('enter your ID');
 const userPassword = prompt('enter your Password');
 
-userStorage.loginUser(userId, userPassword)
-    .then(userStorage.getRoles)
-    .then(user => alert(`${user.name} 님 반가워요 당신의 권한은 ${user.role} 입니다`))
-    .catch(console.log);
+const userRole = new UserStorage()
+userRole.infoUser();
+
+
+
+
+
+
 
 

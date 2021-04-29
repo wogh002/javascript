@@ -31,8 +31,8 @@ const getHen = () => new Promise((resolve, reject) => setTimeout(resolve, 1000, 
 const getEgg = hen => new Promise((resolve, reject) => setTimeout(reject, 1000, new Error(`무엇인가 에러 발생! ex) network error`)));
 const cook = egg => new Promise((resolve, reject) => setTimeout(resolve, 1000, `${egg}=>🍳`));
 
-//콜백함수를 전달할 때 받아오는 value 를 다른 함수에서 하나를 호출하는 경우에는 리팩토링가능
-//then 에서 받아오는 value 하나를 바로 함수에 파라미터로 전달한다.
+//콜백함수를 전달할 때 받아오는 value 를 다른 함수에서 한개를 호출하는 경우에는 리팩토링가능
+//then 에서 받아오는 value 한개를 바로 함수에 파라미터로 전달한다.
 getHen() //
     .then(getEgg)
     .catch(() => '🥚=>💕') //에러 대처

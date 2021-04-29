@@ -4,7 +4,7 @@ const p1 = new Promise(resolve => {
 });
 const p2 = new Promise((resolve, reject) => {
     //reject 함수를 사용하게되면 거부된 promise 객체를 반환한다.(거부할 때 사용)
-    setTimeout(reject, 3000, 'this is error');
+    setTimeout(resolve, 3000, 'second');
 });
 const p3 = new Promise(resolve => {
     setTimeout(resolve, 1000, 'Third');
