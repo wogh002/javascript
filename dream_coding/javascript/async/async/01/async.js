@@ -15,7 +15,7 @@ async function getApple() {
     await delay(2000);
     return '🍏';
 }
-
+console.log(getApple().then(console.log));
 
 
 async function getBanana() {
