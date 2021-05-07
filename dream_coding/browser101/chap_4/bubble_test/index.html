@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble</title>
+</head>
+
+<body>
+    <div>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>4</button>
+        <button>5</button>
+    </div>
+    <script>
+        //자식 요소에게 이벤트가 발생하면 부모 역시 등록된 콜백함수도 실행되어진다.
+        const div = document.querySelector('div');
+        const btns = document.querySelectorAll('button');
+        div.addEventListener('click', event => {
+            console.log(`div` + event.currentTarget);
+        });
+        btns.forEach(btn => {
+            btn.addEventListener('click', event => {
+                console.dir(`btn ` + event.currentTarget);
+            })
+        })
+
+    </script>
+</body>
+
+</html>
