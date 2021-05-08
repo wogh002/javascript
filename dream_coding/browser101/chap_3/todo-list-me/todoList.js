@@ -28,7 +28,7 @@ const isEmpty = currentValue => {
         onAdd(currentValue.trim());
     }
 }
-
+//이벤트 버블링 => 하위의 이벤트가 상위로 전달 되어 가 는것.
 items.addEventListener('click', event => {
     const id = event.target.dataset.id;
     if (event.target.className === 'fas fa-trash-alt') {

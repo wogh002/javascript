@@ -17,17 +17,24 @@
         <button>5</button>
     </div>
     <script>
-        //자식 요소에게 이벤트가 발생하면 부모 역시 등록된 콜백함수도 실행되어진다.
+        //하위의 이벤트가 상위의 이벤트로 전달.
         const div = document.querySelector('div');
         const btns = document.querySelectorAll('button');
         div.addEventListener('click', event => {
-            console.log(`div` + event.currentTarget);
+            console.log(`div` + event.target);
         });
         btns.forEach(btn => {
             btn.addEventListener('click', event => {
-                console.dir(`btn ` + event.currentTarget);
+                console.log('btn click');
+                event.stopPropagation();
             })
         })
+
+        // btns.forEach(btn => {
+        //     btn.addEventListener('click', event => {
+        //         console.dir(`btn ` + event.currentTarget);
+        //     })
+        // })
 
     </script>
 </body>
