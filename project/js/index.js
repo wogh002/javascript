@@ -1,12 +1,17 @@
 'use strict';
 const gameField = document.querySelector('.game__field');
+const gameBtn = document.querySelector('.game__header__button');
+const gameTimer = document.querySelector('.game__header__timer');
+const gameScore = document.querySelector('.game__header__score');
 const fieldRect = gameField.getBoundingClientRect();
+const CARROT_COUNT = 5;
+const BUG_COUNT = 5;
 const CARROT_SIZE = 80;
 const x1 = 0;
 const y1 = 0;
 const x2 = fieldRect.width - CARROT_SIZE;
 const y2 = fieldRect.height - CARROT_SIZE;
-
+let started = false;
 function randomNumber(min, max) { //min 이상 max미만
     return Math.random() * (max - min) + min;
 }
@@ -22,9 +27,39 @@ function addItem(className, count, imgPath) {
         gameField.appendChild(item);
     }
 }
-
-function initGame() { 
-    addItem('carrot', '5', './carrot/image/carrot.png');
-    addItem('bug', '5', './carrot/image/bug.png');
+function initGame() {
+    gameField.innerHTML = ``;
+    gameScore.textContent = `${CARROT_COUNT}`;
+    addItem('carrot', CARROT_COUNT, './carrot/image/carrot.png');
+    addItem('bug', BUG_COUNT, './carrot/image/bug.png');
 }
-initGame();
+function showStopButton() {
+    const icon = document.querySelector('.fa-play');
+    icon.classList.remove('fa-play');
+    icon.classList.add('fa-stop');
+}
+function showTimerAndScore() {
+    gameTimer.style.visibility = 'visible';
+    gameScore.style.visibility = 'visible';
+}
+function startGameTimer() {
+    
+}
+function startGame() {
+    initGame();
+    showStopButton();
+    showTimerAndScore();
+    startGameTimer();
+}
+function stopGame() {
+
+}
+gameBtn.addEventListener('click', event => {
+    if (started) {
+        stopGame();
+    }
+    else {
+        startGame();
+    }
+    started = !started;
+})

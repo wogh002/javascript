@@ -60,6 +60,7 @@ img{
     background-color: white;
     border-radius: 6px;
     margin-bottom: 5px;
+    visibility: hidden;
 }
 .game__header__score{
     width: 55px;
@@ -69,6 +70,7 @@ img{
     border: 3px solid black;
     border-radius: 50%;
     background-color: darksalmon;
+    visibility: hidden;
 }
 .game__field{
     position: relative;
@@ -87,7 +89,7 @@ img{
     font-size: 40px;
     text-align: center;
 }
-.pop-up--hide{
+.--hide{
     display: none;
 }
 
