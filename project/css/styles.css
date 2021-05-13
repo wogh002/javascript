@@ -6,9 +6,7 @@ body{
     background-color: black;
     color: white;
 }
-img{
-    cursor: pointer;
-}
+
 .game{
     display: flex;
     flex-direction: column;
@@ -33,6 +31,10 @@ img{
     display: block;
     margin: 0 auto;
     text-align: center;
+}
+.game__header__timer,
+.game__header__score{
+    user-select: none;
 }
 .game__header__button,
 .game__pop-up__refresh{
@@ -92,6 +94,16 @@ img{
 .--hide{
     display: none;
 }
+.carrot,
+.bug{
+    transition: transform ease-in 100ms;
+}
+.carrot:hover,
+.bug:hover{
+    transform: scale(1.1);
+}
+
+
 
 
 

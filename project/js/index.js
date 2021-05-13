@@ -1,5 +1,5 @@
 'use strict';
-const CARROT_COUNT = 5;
+const CARROT_COUNT = 20;
 const BUG_COUNT = 5;
 const CARROT_SIZE = 80;
 const GAME_DURATION_SEC = 5;
@@ -19,10 +19,15 @@ const x2 = fieldRect.width - CARROT_SIZE;
 const y2 = fieldRect.height - CARROT_SIZE;
 let started = false;
 let score = 0;
-
+const carrotSound = new Audio('./carrot/sound/carrot_pull.mp3');
+const alertSound = new Audio('./carrot/sound/alert.wav');
+const bgSound = new Audio('./carrot/sound/bg.mp3');
+const bugSound = new Audio('./carrot/sound/bug_pull.mp3');
+const winSound = new Audio('./carrot/sound/game_win.mp3');
 function randomNumber(min, max) { //min 이상 max미만
     return Math.random() * (max - min) + min;
 }
+
 function addItem(className, count, imgPath) {
     for (let i = 0; i < count; i++) {
         const item = document.createElement('img');
@@ -31,11 +36,14 @@ function addItem(className, count, imgPath) {
         item.style.position = 'absolute';
         const randomWidth = randomNumber(x1, x2);
         const randomHeight = randomNumber(y1, y2);
-        item.style.transform = `translate(${randomWidth}px,${randomHeight}px)`;
+        item.style.top = `${randomHeight}px`;
+        item.style.left = `${randomWidth}px`;
+        // item.style.transform = `translate(${randomWidth}px,${randomHeight}px)`;
         gameField.appendChild(item);
     }
 }
 function initGame() {
+    score = 0;
     gameField.innerHTML = ``;
     gameScore.textContent = `${CARROT_COUNT}`;
     addItem('carrot', CARROT_COUNT, './carrot/image/carrot.png');
@@ -45,6 +53,7 @@ function showStopButton() {
     const icon = document.querySelector('.fas');
     icon.classList.remove('fa-play');
     icon.classList.add('fa-stop');
+    gameBtn.style.visibility = 'visible';
 }
 
 function showTimerAndScore() {
@@ -61,7 +70,6 @@ function startGameTimer() {
     updateTimerText(remainingTimeSec); //5
     timer = setInterval(() => {
         if (remainingTimeSec <= 0) {
-            clearInterval(timer);
             finishGame(CARROT_COUNT === score);
             return;
         }
@@ -79,7 +87,6 @@ function showGameBtn() {
     gameBtn.style.visibility = 'visible';
 }
 function showPopUpWithText(text) {
-    score = 0;
     gamePopUpMessage.textContent = `${text}`;
     gamePopUp.classList.remove('--hide');
 }
@@ -95,8 +102,12 @@ gameBtn.addEventListener('click', event => {
         startGame();
     }
 })
+function stopSound(sound) {
+    sound.pause();
+}
 function startGame() {
     started = true;
+    playSound(bgSound);
     initGame();
     showStopButton();
     showTimerAndScore();
@@ -107,16 +118,29 @@ function stopGame() {
     stopGameTimer();
     hideGameBtn();
     showPopUpWithText(`REPLAY? 💕`);
+    playSound(alertSound);
+    stopSound(bgSound);
 }
 function finishGame(win) {
     started = false;
     hideGameBtn();
+    if (win) {
+        playSound(winSound);
+    }
+    else {
+        playSound(bugSound);
+    }
+    stopGameTimer();
+    stopSound(bgSound);
     showPopUpWithText(win ? `YOU WON ⭕` : `YOU LOST 💥`);
 }
 function updateScoreBoard() {
     gameScore.textContent = CARROT_COUNT - score;
 }
-
+function playSound(sound) {
+    sound.currentTime = 0;
+    sound.play();
+}
 gameField.addEventListener('click', event => {
     if (!started) { //게임시작하지 않았다면.
         return;
@@ -124,16 +148,15 @@ gameField.addEventListener('click', event => {
     const target = event.target;
     if (target.matches('.carrot')) {
         //당근
+        playSound(carrotSound);
         target.remove();
         score++;
         updateScoreBoard();
         if (score === CARROT_COUNT) {
-            stopGameTimer();
             finishGame(true);
         }
     }
     else if (target.matches('.bug')) {
-        stopGameTimer();
         finishGame(false);
     }
 })
