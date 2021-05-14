@@ -1,4 +1,6 @@
 'use strict';
+const carrotSound = new Audio('./carrot/sound/carrot_pull.mp3');
+
 export default class Field {
     constructor(carrotCount, bugCount) {
         this.carrotCount = carrotCount;
@@ -10,20 +12,14 @@ export default class Field {
         this.y1 = 0;
         this.x2 = this.fieldRect.width - this.CARROT_SIZE;
         this.y2 = this.fieldRect.height - this.CARROT_SIZE;
-        this.field.addEventListener('click', event => {
-            this.onClick && this.onClick(event);
-        })
+        this.field.addEventListener('click', this.onClick);
     }
-    //field 안에 존재하는 메소드들.
     init() {
         this.field.innerHTML = ``;
         this._addItem('carrot', this.carrotCount, './carrot/image/carrot.png');
         this._addItem('bug', this.bugCount, './carrot/image/bug.png');
     }
-    setClickListener(onClick) {
-        this.onClick = onClick;
-    }
-    randomNumber(min, max) { //min 이상 max미만
+    randomNumber(min, max) {
         return Math.random() * (max - min) + min;
     }
     _addItem(className, count, imgPath) {
@@ -38,5 +34,23 @@ export default class Field {
             item.style.left = `${randomWidth}px`;
             this.field.appendChild(item);
         }
+    }
+    setClickListener(onItemClick) {
+        this.onItemClick = onItemClick;
+    }
+    onClick(event) {
+        const target = event.target;
+        if (target.matches('.carrot')) {
+            playSound(carrotSound);
+            target.remove();
+            this.onItemClick && this.onItemClick('carrot');
+        }
+        else if (target.matches('.bug')) {
+            this.onItemClick && this.onItemClick('bug');
+        }
+    }
+    playSound(sound) {
+        sound.currentTime = 0;
+        sound.play();
     }
 }

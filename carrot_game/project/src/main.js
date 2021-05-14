@@ -1,18 +1,15 @@
 'use strict';
 import PopUp from './popup.js';
 import Field from './field.js';
-
 const CARROT_COUNT = 5;
 const BUG_COUNT = 5;
 const GAME_DURATION_SEC = 5;
-
 const gameBtn = document.querySelector('.game__header__button');
 const gameTimer = document.querySelector('.game__header__timer');
 const gameScore = document.querySelector('.game__header__score');
 let timer = undefined;
 let started = false;
 let score = 0;
-const carrotSound = new Audio('./carrot/sound/carrot_pull.mp3');
 const alertSound = new Audio('./carrot/sound/alert.wav');
 const bgSound = new Audio('./carrot/sound/bg.mp3');
 const bugSound = new Audio('./carrot/sound/bug_pull.mp3');
