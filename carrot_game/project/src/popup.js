@@ -1,15 +1,13 @@
 'use strict';
 export default class PopUp {
     constructor() {
-        //PopUp = {}
         this.gamePopUp = document.querySelector('.game__pop-up');
         this.gamePopUpMessage = document.querySelector('.game__pop-up__message');
         this.gamePopUpRefreshBtn = document.querySelector('.game__pop-up__refresh');
         this.gamePopUpRefreshBtn.addEventListener('click', () => {
             this.onClick && this.onClick();
-            this.hide();
-        })
-        //return this;
+            this.hide()
+        });
     }
     setClickListener(onClick) {
         this.onClick = onClick;
