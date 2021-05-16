@@ -6,7 +6,7 @@ export default class PopUp {
         this.gamePopUpRefreshBtn = document.querySelector('.game__pop-up__refresh');
         this.gamePopUpRefreshBtn.addEventListener('click', () => {
             this.onClick && this.onClick();
-            this.hide()
+            this.hide();
         });
     }
     setClickListener(onClick) {

@@ -3,7 +3,7 @@ import * as sound from './sound.js';
 const CARROT_SIZE = 80;
 
 export default class Field {
-    //지역스코프 : 해당 지역(Field)에서만  접근해줘야한다.
+    //지역스코프 : 해당 지역(Field)에서만  접근 해줘야한다.
     //그래야 지역에 존재하는 메소드 그리고 변수를 사용 할 수 있다.
     constructor(carrotCount, bugCount) {
         //this={}
@@ -41,11 +41,10 @@ export default class Field {
             item.style.top = `${randomHeight}px`;
             item.style.left = `${randomWidth}px`;
             this.field.appendChild(item);
-        }   
+        }
     }
     onClick = event => {
         const target = event.target;
-        console.log(this);
         if (target.matches('.carrot')) {
             sound.playCarrot();
             target.remove();
