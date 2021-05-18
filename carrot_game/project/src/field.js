@@ -1,8 +1,11 @@
 'use strict';
 import * as sound from './sound.js';
+export const ItemType = Object.freeze({
+    carrot: 'carrot',
+    bug: 'bug'
+});
 const CARROT_SIZE = 80;
-
-export default class Field {
+export class Field {
     //지역스코프 : 해당 지역(Field)에서만  접근 해줘야한다.
     //그래야 지역에 존재하는 메소드 그리고 변수를 사용 할 수 있다.
     constructor(carrotCount, bugCount) {
@@ -26,8 +29,8 @@ export default class Field {
     }
     init() {
         this.field.innerHTML = ``;
-        this._addItem('carrot', this.carrotCount, './carrot/image/carrot.png');
-        this._addItem('bug', this.bugCount, './carrot/image/bug.png');
+        this._addItem(ItemType.carrot, this.carrotCount, './carrot/image/carrot.png');
+        this._addItem(ItemType.bug, this.bugCount, './carrot/image/bug.png');
     }
 
     _addItem(className, count, imgPath) {
@@ -48,10 +51,10 @@ export default class Field {
         if (target.matches('.carrot')) {
             sound.playCarrot();
             target.remove();
-            this.onItemClick && this.onItemClick('carrot');
+            this.onItemClick && this.onItemClick(ItemType.carrot);
         }
         else if (target.matches('.bug')) {
-            this.onItemClick && this.onItemClick('bug');
+            this.onItemClick && this.onItemClick(ItemType.bug);
         }
     }
     setClickListener(onItemClick) {

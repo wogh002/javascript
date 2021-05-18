@@ -1,8 +1,39 @@
+import { Field, ItemType } from './field.js';
 import * as sound from './sound.js';
-import Field from './field.js';
+//export 는 파일에서 여러개 사용가능.
+//export는 정확하게 그 이름(Reason)으로 import 해야 해요 
+export const Reason = Object.freeze({
+    win: `win`,
+    lose: `lose`,
+    cancel: `cancel`,
+});
 
-export default class Game { //지역스코프
-    constructor(gameDuration, carroutCount, bugCount) {
+//Builder Pattern
+//export default는 파일에서 한개만 사용가능.
+export class GameBuilder {
+    withGameDuration(duration) {
+        this.gameDuration = duration;
+        return this;
+    }
+    withCarrotCount(carrotCount) {
+        this.carrotCount = carrotCount;
+        return this;
+    }
+    withBugCount(bugCount) {
+        this.bugCount = bugCount;
+        return this;
+    }
+    build() {
+        return new Game(
+            this.gameDuration,
+            this.carrotCount,
+            this.bugCount
+        );
+    }
+}
+
+class Game {
+    constructor(gameDuration, carroutCount, bugCount) { 
         this.gameDuration = gameDuration;
         this.carroutCount = carroutCount;
         this.bugCount = bugCount;
@@ -12,13 +43,11 @@ export default class Game { //지역스코프
         this.gameBtn = document.querySelector('.game__header__button');
         this.gameTimer = document.querySelector('.game__header__timer');
         this.gameScore = document.querySelector('.game__header__score');
-
         this.gameField = new Field(this.carroutCount, this.bugCount);
         this.gameField.setClickListener(this.onItemClick);
-
         this.gameBtn.addEventListener('click', () => {
             if (this.started) {
-                this.stopGame();
+                this.stopGame(Reason.cancel);
             }
             else {
                 this.startGame();
@@ -28,7 +57,7 @@ export default class Game { //지역스코프
     setGameStopListener(onGameStop) {
         this.onGameStop = onGameStop;
     }
-    startGame = () => {
+    startGame = () => { //에로우펑션을 사용한 this 바인딩.
         this.started = true;
         sound.playBackground();
         this.initGame();
@@ -36,14 +65,15 @@ export default class Game { //지역스코프
         this.showTimerAndScore();
         this.startGameTimer();
     }
-    stopGame() {
+    stopGame(reason) {
         this.started = false;
+        sound.stopBackground();
         this.stopGameTimer();
         this.hideGameBtn();
-        this.onGameStop && this.onGameStop('cancel');
-        sound.playAlert();
-        sound.stopBackground();
+        this.onGameStop && this.onGameStop(reason);
     }
+
+
     initGame() {
         this.gameField.init();
         this.score = 0;
@@ -71,7 +101,7 @@ export default class Game { //지역스코프
         this.updateTimerText(remainingTimeSec); //5
         this.timer = setInterval(() => {
             if (remainingTimeSec <= 0) {
-                this.finishGame(this.carroutCount === this.score);
+                this.stopGame(this.carroutCount === this.score ? Reason.win : Reason.lose);
                 return;
             }
             this.updateTimerText(--remainingTimeSec);
@@ -87,32 +117,20 @@ export default class Game { //지역스코프
         this.gameScore.textContent = this.carroutCount - this.score;
     }
 
-    finishGame(win) {
-        this.started = false;
-        this.hideGameBtn();
-        if (win) {
-            sound.playWin();
-        }
-        else {
-            sound.playBug();
-        }
-        this.stopGameTimer();
-        sound.stopBackground();
-        this.onGameStop && this.onGameStop(win ? 'win' : 'lose');
-    }
+
     onItemClick = item => {
         if (!this.started) { //게임시작하지 않았다면.
             return;
         }
-        if (item === 'carrot') {
+        if (item === ItemType.carrot) {
             this.score++;
             this.updateScoreBoard();
             if (this.score === this.carroutCount) {
-                this.finishGame(true);
+                this.stopGame(Reason.win);
             }
         }
-        else if (item === 'bug') {
-            this.finishGame(false);
+        else if (item === ItemType.bug) {
+            this.stopGame(Reason.lose);
         }
     };
 
