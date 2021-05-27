@@ -10,6 +10,7 @@ button{
 }
 .navbar{
   font-size: 2rem;
+  margin-bottom: 35px;
   padding: 1em;
   background-color: blanchedalmond;
 }
@@ -28,6 +29,19 @@ button{
   background-color: green;
   border-radius: 50%;
   color: white;
+}
+.add-form{
+  padding: 10px;
+  margin-bottom: 30px;
+}
+.add-button{
+  font-size: 30px;
+  background-color: darkseagreen;
+  color: white;
+  border-radius: 10px;
+}
+.add-input{
+    font-size: 30px;
 }
 .habit {
   font-size: 2.5rem;
@@ -57,5 +71,15 @@ button{
 .habit-delete{
   font-size: 2rem;
   color: darkred;
+}
+.habits-reset{
+  display: block;
+  width: 80px;
+  height: 50px;
+  background-color: darkseagreen;
+  color: white;
+  border-radius: 10px;
+  margin:0 auto;
+  margin-top: 30px;
 }
 

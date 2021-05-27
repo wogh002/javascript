@@ -13,17 +13,28 @@ class App extends Component {
   }
   handleIncrement = habit => {
     // 리액트에서 직접적으로 state 를 변경하는 것은 좋지 않다.
-    const habits = [...this.state.habits];
-    const index = habits.indexOf(habit);
-    habits[index].count++;
+    //ex) state.habits.count++;
+    const habits = this.state.habits.map(item => {
+      if (item.id === habit.id) {
+        //인자로 들어가게 될 경우 rest.
+        return { ...habit, count: habit.count + 1 };
+      }
+      return item;
+    });
     this.setState({ habits });
   }
   handleDecrement = habit => {
-    // 리액트에서 직접적으로 state 를 변경하는 것은 좋지 않다.
-    const habits = [...this.state.habits];
-    const index = habits.indexOf(habit);
-    const count = habits[index].count - 1;
-    habits[index].count = count < 0 ? 0 : count;
+    // const habits = [...this.state.habits];
+    // const index = habits.indexOf(habit);
+    // const count = habits[index].count - 1;
+    // habits[index].count = count < 0 ? 0 : count;
+    const habits = this.state.habits.map(item => {
+      if (item.id === habit.id) {
+        const count = habit.count - 1;
+        return { ...habit, count: count < 0 ? 0 : count };
+      }
+      return item;
+    })
     this.setState({ habits });
   }
   handleDelete = habit => {
@@ -41,9 +52,20 @@ class App extends Component {
     this.setState({ habits });
 
   }
+  handleReset = () => {
+    const habits = this.state.habits.map(habit => {
+      // habit.count = 0;
+      // return habit;
+      if (habit.count !== 0) {
+        return { ...habit, count: 0 };
+      }
+      return habit;
+    });
+    this.setState({ habits });
+  }
   render() {
+    console.log('app');
     return (
-      // props란? 자식컴포넌트로 데이터를 전달해준다.
       <>
         <Navbar
           totalCount={this.state.habits.filter(item => item.count > 0).length}
@@ -54,6 +76,7 @@ class App extends Component {
           onDecrement={this.handleDecrement}
           onDelete={this.handleDelete}
           onAdd={this.handleAdd}
+          onReset={this.handleReset}
         />
       </>
     );
