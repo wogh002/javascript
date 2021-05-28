@@ -64,7 +64,6 @@ class App extends Component {
     this.setState({ habits });
   }
   render() {
-    console.log('app');
     return (
       <>
         <Navbar

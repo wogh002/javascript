@@ -1,29 +1,29 @@
-import React, { PureComponent } from 'react';
+import React, { memo } from 'react';
 
-class HabitAddForm extends PureComponent {
-    inputRef = React.createRef();
-    formRef = React.createRef();
-    onSubmit = event => {
+const HabitAddForm = memo(props => {
+    //memo === PureComponent
+    //이전의 props,state 와 현재의 props,state를 비교 후 달라졌으면 리 렌더.
+    const inputRef = React.createRef();
+    const formRef = React.createRef();
+    const onSubmit = event => {
         event.preventDefault();
-        const name = this.inputRef.current.value;
-        name && this.props.onAdd(name);
-        // this.inputRef.current.value = '';
-        this.formRef.current.reset();
+        const name = inputRef.current.value;
+        name && props.onAdd(name);
+        // inputRef.current.value = '';
+        formRef.current.reset();
     }
-    render() {
-        console.log('HabitAddForm');
-        return (
-            <form ref={this.formRef} className="add-form" onSubmit={this.onSubmit}>
-                <input
-                    ref={this.inputRef}
-                    type="text"
-                    className="add-input"
-                    placeholder="Habit">
-                </input>
-                <button type="submit" className="add-button">Add</button>
-            </form>
-        );
-    }
-}
+    return (
+        <form ref={formRef} className="add-form" onSubmit={onSubmit}>
+            <input
+                ref={inputRef}
+                type="text"
+                className="add-input"
+                placeholder="Habit">
+            </input>
+            <button type="submit" className="add-button">Add</button>
+        </form>
+    );
+});
+
 
 export default HabitAddForm;

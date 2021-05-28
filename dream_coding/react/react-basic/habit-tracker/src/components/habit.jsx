@@ -6,8 +6,15 @@ import React, { PureComponent } from 'react';
 //habit의 주소값이 변경되면 props의 데이터가 변경된다.
 
 class Habit extends PureComponent {
-    //컴포넌트란? 데이터를 입력받아서 dom NODE 를 출력하는 함수.
-    // 컴포넌트에는 state라는 멤버변수 객체가 존재한다.
+    // 컴포넌트 생명주기 Life Cycle
+    // 컴포넌트가 마운트된 직후, 즉 트리에 삽입된 직후에 호출됩니다.
+    componentDidMount() {
+        console.log(`habit: ${this.props.habit.name} mounted`);
+    }
+    //컴포넌트가 마운트 해제되어 제거되기 직전에 호출됩니다
+    componentWillUnmount() {
+        console.log(`habit: ${this.props.habit.name} WillUnmount`);
+    }
     handleIncrement = () => {
         this.props.onIncrement(this.props.habit);
     }
@@ -18,7 +25,6 @@ class Habit extends PureComponent {
         this.props.onDelete(this.props.habit);
     }
     render() {
-        console.log('habit');
         // props = 외부 컴포넌트에서 전달받은 propreties
         const { name, count } = this.props.habit;
         return (
